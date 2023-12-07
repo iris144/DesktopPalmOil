@@ -7,16 +7,35 @@ import java.awt.event.ActionListener;
 public class FirstPage extends BasePage {
 
     public FirstPage(ActionListener changePageAction) {
-        firstPanel.add(createNameLabel(), BorderLayout.CENTER);
-        secondPanel.add(createDescriptionLabel(), BorderLayout.CENTER);
+        firstPanel.add(imageLabel(), BorderLayout.NORTH);
+        secondPanel.add(createNameLabel(), BorderLayout.CENTER);
+        thirdPanel.add(createDescriptionLabel(), BorderLayout.CENTER);
 
         JButton startButton = new Button();
         startButton.setText("Continue");
         startButton.addActionListener(changePageAction);
 
-        thirdPanel.add(startButton, BorderLayout.CENTER);
+        fourthPanel.add(startButton, BorderLayout.CENTER);
     }
 
+
+    private JLabel imageLabel() {
+        ImageIcon image = new ImageIcon("src/oil/orangutaningreen.png");
+
+        // Get the original image from the image
+        Image originalImage = image.getImage();
+
+        // Get the width and height of the label
+        int labelWidth = 200;
+        int labelHeight = 200;
+
+        // Scale the image to fit the label while maintaining aspect ratio
+        Image scaledImage = originalImage.getScaledInstance(labelWidth, labelHeight, Image.SCALE_SMOOTH);
+
+        // Create a new ImageIcon from the scaled image
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+        return new JLabel(scaledIcon);
+    }
     private JLabel createNameLabel() {
         JLabel nameLabel = new JLabel("PALM OIL TRANSLATOR");
         nameLabel.setHorizontalAlignment(SwingConstants.CENTER);

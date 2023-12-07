@@ -21,8 +21,6 @@ public class SecondPage extends BasePage {
         findOutButton.addActionListener(e -> {
             setIngredients.accept(ingredients.getText());
             changePageAction.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null) {
-                //Nothing need go here, the actionPerformed method (with the
-                //above arguments) will trigger the respective listener
             });
         });
 
@@ -34,7 +32,7 @@ public class SecondPage extends BasePage {
         JLabel newLabel = new JLabel(text);
         newLabel.setHorizontalAlignment(SwingConstants.CENTER);
         newLabel.setVerticalAlignment(SwingConstants.CENTER);
-        newLabel.setFont(new Font("Fira Code", Font.BOLD, 16));
+        newLabel.setFont(new Font("Fira Code", Font.PLAIN, 16));
         newLabel.setForeground(Color.black);
         return newLabel;
     }
@@ -47,6 +45,9 @@ public class SecondPage extends BasePage {
 
         ingredients.setLineWrap(true);
         ingredients.setWrapStyleWord(true);
+        ingredients.setBackground(new Color(245, 244, 237));
+
+        ingredients.setFont(new Font("Fira Code", Font.PLAIN, 12));
 
         // Set the start position to the top left corner
         ingredients.setCaretPosition(0);
@@ -62,12 +63,12 @@ public class SecondPage extends BasePage {
 
     private JLabel page2Text() {
         String text = "<html><div style='text-align: center;'><br><br>" +
-                "Find out if your product contains hidden palm oil!<br><br>Press the button</div></html>";
+                "Find out if your product contains hidden palm oil!<br><br>Press the button<br><br></div></html>";
         JLabel newLabel = new JLabel(text);
 
         newLabel.setHorizontalAlignment(SwingConstants.CENTER);
         newLabel.setVerticalAlignment(SwingConstants.CENTER);
-        newLabel.setFont(new Font("Fira Code", Font.BOLD, 16));
+        newLabel.setFont(new Font("Fira Code", Font.PLAIN, 16));
         newLabel.setForeground(Color.black);
         return newLabel;
     }

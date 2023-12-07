@@ -13,22 +13,32 @@ public class BasePage extends JPanel {
     public JPanel fourthPanel;
 
     public BasePage() {
+
         this.backgroundColor = new Color(49, 163, 118);
-        setLayout(new GridLayout(4, 1));
+        setLayout(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0; // Make the panels stretch horizontally
 
         firstPanel = createBasePanel();
         secondPanel = createBasePanel();
         thirdPanel = createBasePanel();
         fourthPanel = createBasePanel();
 
-        addPanels();
+        addPanels(gbc);
     }
 
-    public void addPanels() {
-        this.add(firstPanel);
-        this.add(secondPanel);
-        this.add(thirdPanel);
-        this.add(fourthPanel);
+    public void addPanels(GridBagConstraints gbc) {
+        add(firstPanel, gbc);
+        gbc.gridy++;
+        add(secondPanel, gbc);
+        gbc.gridy++;
+        add(thirdPanel, gbc);
+        gbc.gridy++;
+        add(fourthPanel, gbc);
     }
 
     @Override
