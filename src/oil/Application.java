@@ -2,14 +2,16 @@ package oil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
 
 public class Application extends JFrame {
-
+    private JTextArea ingredients;
+    
     public Application() {
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1000, 1000);
+        setSize(700, 1000);
         setTitle("Palm oil translator");
         setIconImage(new ImageIcon("src/oil/orangutan.png").getImage());
         setLocationRelativeTo(null);
@@ -22,60 +24,106 @@ public class Application extends JFrame {
         gbc.gridy = 0;
         gbc.insets = new Insets(5, 0, 5, 0); // Adjust the vertical spacing
 
-        JPanel mainPanel = createMainPanel();
-        JPanel textPanel = createTextPanel();
-        JPanel buttonPanel = createButtonPanel();
+        // All the panels you will use throughout the whole process
+        JPanel firstPanel = firstPanel();
+        JPanel secondPanel = secondPanel();
+        JPanel thirdPanel = thirdPanel();
+        JPanel fourthPanel = fourthPanel();
 
-
+        // the first 'page' with your labels and button
         JLabel nameLabel = createNameLabel();
         JLabel description = createDescriptionLabel();
-        JButton startButton = createStartButton();
+        JButton startButton = new Button();
+        startButton.setText("Continue");
 
-        textPanel.add(nameLabel, BorderLayout.NORTH);
-        mainPanel.add(description, BorderLayout.CENTER);
-        buttonPanel.add(startButton, BorderLayout.SOUTH);
+        // adding your labels to your panels
+        firstPanel.add(nameLabel, BorderLayout.NORTH);
+        secondPanel.add(description, BorderLayout.CENTER);
+        thirdPanel.add(startButton, BorderLayout.SOUTH);
 
-        customPanel.add(textPanel, gbc);
+        // creating new labels for your second page
+        JLabel page2InformationText = page2Information();
+        JScrollPane fillInIngredients = yourIngredients();
+        JLabel foundOutIfText = page2Text();
+        JButton findOutButton = new Button();
+        findOutButton.setText("Find out");
 
+
+        startButton.addActionListener(e -> {
+            firstPanel.remove(nameLabel);
+            secondPanel.remove(description);
+            thirdPanel.remove(startButton);
+            firstPanel.add(page2InformationText, BorderLayout.CENTER);
+            secondPanel.add(fillInIngredients, BorderLayout.CENTER);
+            thirdPanel.add(foundOutIfText, BorderLayout.CENTER);
+            fourthPanel.add(findOutButton, BorderLayout.CENTER);
+
+
+                findOutButton.addActionListener(f -> {
+                    firstPanel.remove(page2InformationText);
+                    secondPanel.remove(fillInIngredients);
+                    thirdPanel.remove(foundOutIfText);
+                    fourthPanel.remove(findOutButton);
+
+                    customPanel.revalidate();
+                    customPanel.repaint();
+                });
+
+            // Repaint the customPanel to reflect changes
+            customPanel.revalidate();
+            customPanel.repaint();
+        });
+
+
+        // Layout of your application.
+        customPanel.add(firstPanel, gbc);
         gbc.gridy++;
-        gbc.insets = new Insets(0, 0, 0, 0); // Reset insets for less spacing
-        customPanel.add(mainPanel, gbc);
+        gbc.insets = new Insets(0, 0, 0, 0);
 
+        customPanel.add(secondPanel, gbc);
         gbc.gridy++;
-        gbc.insets = new Insets(0, 0, 0, 0); // Reset insets for less spacing
-        customPanel.add(buttonPanel, gbc);
+        gbc.insets = new Insets(0, 0, 0, 0);
 
+        customPanel.add(thirdPanel, gbc);
+        gbc.gridy++;
+        gbc.insets = new Insets(0, 0, 0, 0);
+
+        customPanel.add(fourthPanel, gbc);
+
+        // just making it visible
         setContentPane(customPanel);
         setVisible(true);
     }
 
-    private JPanel createButtonPanel() {
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BorderLayout());
-        buttonPanel.setBackground(new Color(49, 163, 118));
-        return buttonPanel;
+    private JPanel firstPanel() {
+        JPanel textPanel = new JPanel();
+        textPanel.setLayout(new BorderLayout());
+        textPanel.setBackground(new Color(49, 163, 118));
+        return textPanel;
     }
 
-    private JButton createStartButton() {
-        JButton startButton = new JButton("Hello");
-        startButton.setLayout(new BorderLayout());
-
-        return startButton;
-    }
-
-    private JPanel createMainPanel() {
+    private JPanel secondPanel() {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBackground(new Color(49, 163, 118));
         return mainPanel;
     }
 
-    private JPanel createTextPanel() {
-        JPanel textPanel = new JPanel();
-        textPanel.setLayout(new BorderLayout());
-        textPanel.setBackground(new Color(49, 163, 118));
-        return textPanel;
+    private JPanel thirdPanel() {
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BorderLayout());
+        buttonPanel.setBackground(new Color(49, 163, 118));
+        return buttonPanel;
     }
+
+    private JPanel fourthPanel() {
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BorderLayout());
+        buttonPanel.setBackground(new Color(49, 163, 118));
+        return buttonPanel;
+    }
+
+
 
     private JLabel createNameLabel() {
         JLabel nameLabel = new JLabel("PALM OIL TRANSLATOR");
@@ -87,14 +135,92 @@ public class Application extends JFrame {
     }
 
     private JLabel createDescriptionLabel() {
-        JLabel description = new JLabel("Translates easy and fast all palm oil names to palm oil!");
+        String text = "<html><div style='text-align: center;'><br><br>Translates easy and fast all palm oil names to palm oil!<br><br>" +
+                "<br><br></div></html>";
+        JLabel description = new JLabel(text);
         description.setHorizontalAlignment(SwingConstants.CENTER);
         description.setVerticalAlignment(SwingConstants.CENTER);
         description.setFont(new Font("Fira Code", Font.PLAIN, 16));
         description.setForeground(Color.BLACK);
         return description;
-
     }
+
+
+private JLabel page2Information() {
+    String text = "<html><div style='text-align: center;'><br><br>Fill in your list of ingredients of your product:<br><br></div></html>";
+    JLabel newLabel = new JLabel(text);
+    newLabel.setHorizontalAlignment(SwingConstants.CENTER);
+    newLabel.setVerticalAlignment(SwingConstants.CENTER);
+    newLabel.setFont(new Font("Fira Code", Font.BOLD, 16));
+    newLabel.setForeground(Color.black);
+    return newLabel;
+}
+
+private JScrollPane yourIngredients() {
+
+    ingredients = new JTextArea();
+    ingredients.setRows(5); // Set the number of visible rows
+    ingredients.setColumns(20); // Set the number of visible columns
+
+    ingredients.setLineWrap(true);
+    ingredients.setWrapStyleWord(true);
+
+    // Set the start position to the start
+    ingredients.setCaretPosition(0);
+
+    JScrollPane scrollPane = new JScrollPane(ingredients);
+    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+    Dimension preferredSize = new Dimension(300, 100);
+    scrollPane.setPreferredSize(preferredSize);
+
+    return scrollPane;
+}
+
+    private JLabel page2Text() {
+        String text = "<html><div style='text-align: center;'><br><br>" +
+                "Find out if your product contains hidden palm oil!<br><br>Press the button</div></html>";
+        JLabel newLabel = new JLabel(text);
+
+        newLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        newLabel.setVerticalAlignment(SwingConstants.CENTER);
+        newLabel.setFont(new Font("Fira Code", Font.BOLD, 16));
+        newLabel.setForeground(Color.black);
+        return newLabel;
+    }
+
+    public void compareText(){
+        if (ingredients != null) {
+            String enteredText = ingredients.getText();
+            String[] splitEnteredText = enteredText.split("\\s+");
+            String[] hiddenNames = HiddenPalmOilNames.hiddenNames;
+            JLabel foundAMatch = new JLabel();
+
+            boolean palmOilFound = false;
+
+            for (String name : splitEnteredText) {
+                if (Arrays.asList(hiddenNames).contains(name)) {
+                    palmOilFound = true;
+                    break; // Exit the loop once palm oil is found
+                }
+            }
+
+            String text;
+            if (palmOilFound) {
+                text = "<html><div style='text-align: center;'><br><br>" +
+                        "There is palm oil in this product.</div></html>";
+            } else {
+                text = "<html><div style='text-align: center;'><br><br>" +
+                        "Hooray! No palm oil here!.</div></html>";
+            }
+
+            foundAMatch.setText(text);
+            // Use foundAMatch in your GUI to display the text
+        } else {
+            System.out.println("not found");
+        }
+    }
+
     private static class CustomPanel extends JPanel {
         private Color backgroundColor;
 
