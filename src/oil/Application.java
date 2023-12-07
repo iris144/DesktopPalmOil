@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 public class Application extends JFrame {
     private JTextArea ingredients;
-    
+
     public Application() {
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,7 +36,7 @@ public class Application extends JFrame {
         JButton startButton = new Button();
         startButton.setText("Continue");
 
-        // adding your labels to your panels
+        // adding your first page labels to your panels
         firstPanel.add(nameLabel, BorderLayout.NORTH);
         secondPanel.add(description, BorderLayout.CENTER);
         thirdPanel.add(startButton, BorderLayout.SOUTH);
@@ -47,6 +47,9 @@ public class Application extends JFrame {
         JLabel foundOutIfText = page2Text();
         JButton findOutButton = new Button();
         findOutButton.setText("Find out");
+
+        // creating new labels for third page
+        JLabel foundAMatch = compareText();
 
 
         startButton.addActionListener(e -> {
@@ -64,6 +67,7 @@ public class Application extends JFrame {
                     secondPanel.remove(fillInIngredients);
                     thirdPanel.remove(foundOutIfText);
                     fourthPanel.remove(findOutButton);
+                    firstPanel.add(foundAMatch);
 
                     customPanel.revalidate();
                     customPanel.repaint();
@@ -189,19 +193,20 @@ private JScrollPane yourIngredients() {
         return newLabel;
     }
 
-    public void compareText(){
+    public JLabel compareText(){
+        JLabel foundAMatch = new JLabel();
         if (ingredients != null) {
             String enteredText = ingredients.getText();
             String[] splitEnteredText = enteredText.split("\\s+");
             String[] hiddenNames = HiddenPalmOilNames.hiddenNames;
-            JLabel foundAMatch = new JLabel();
+
 
             boolean palmOilFound = false;
 
             for (String name : splitEnteredText) {
                 if (Arrays.asList(hiddenNames).contains(name)) {
                     palmOilFound = true;
-                    break; // Exit the loop once palm oil is found
+                    break;
                 }
             }
 
@@ -215,10 +220,12 @@ private JScrollPane yourIngredients() {
             }
 
             foundAMatch.setText(text);
-            // Use foundAMatch in your GUI to display the text
+
         } else {
-            System.out.println("not found");
+            foundAMatch.setText("Please fill in ingredients.");
         }
+
+        return foundAMatch;
     }
 
     private static class CustomPanel extends JPanel {
